@@ -1,2 +1,301 @@
-# -_-
-Гайды по млбб
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MLBB Builds 2026</title>
+<style>
+:root{--bg:#080a10;--card:#131824;--line:#303746;--red:#e33148;--gold:#ffc64a;--muted:#aab0bf}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#24101c 0,#080a10 42%);color:#fff;font-family:Arial,Helvetica,sans-serif}
+header{padding:42px 16px 28px;text-align:center;border-bottom:1px solid #3a1b25;background:linear-gradient(135deg,#180b16,#0c101b)}
+h1{margin:0;font-size:clamp(32px,7vw,64px);letter-spacing:1px} header p{color:var(--muted);margin:10px 0 0}
+.wrap{max-width:1250px;margin:auto;padding:20px 14px}
+.controls{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:16px}
+input,select{background:#10141f;color:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;font-size:15px;outline:none}
+.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:8px;margin-bottom:15px}.tabs button{white-space:nowrap;background:#1b2030;color:#fff;border:1px solid var(--line);border-radius:11px;padding:11px 14px;font-weight:700;cursor:pointer}.tabs button.active{background:var(--red);border-color:var(--red)}
+.info{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 20px}.pill{background:#151b29;border:1px solid var(--line);padding:8px 11px;border-radius:999px;color:#d8dce7;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px}
+.card{background:linear-gradient(145deg,#171c29,#0f131c);border:1px solid var(--line);border-radius:17px;padding:16px;box-shadow:0 10px 30px #0006;position:relative}
+.card.new{border-color:#b84cff;box-shadow:0 0 0 1px #b84cff33,0 10px 30px #0006}
+.badge{position:absolute;right:12px;top:12px;background:#8d3cf0;padding:5px 8px;border-radius:8px;font-size:11px;font-weight:bold}
+.name{font-size:22px;font-weight:800;margin-bottom:5px}.role{color:var(--muted);font-size:13px;margin-bottom:13px}
+.label{color:#ffd36a;font-weight:700;font-size:12px;text-transform:uppercase;margin:9px 0 6px}
+.build{line-height:1.65;color:#e9ecf5}.meta{font-size:13px;color:#cbd1df;line-height:1.55}
+.actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}.reaction{border:1px solid var(--line);background:#1a2030;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer}.reaction.active{background:#313b55;border-color:#7282a5}.commentBtn{border:1px solid var(--line);background:#1a2030;color:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}.like,.commentBtn{border:1px solid var(--line);background:#1a2030;color:#fff;border-radius:10px;padding:9px 12px;cursor:pointer}.like.liked{background:#8f2334;border-color:#d44}
+.comments{margin-top:12px;border-top:1px solid #282e3b;padding-top:10px;display:none}.comments.show{display:block}
+.comment-list{max-height:150px;overflow:auto;margin-bottom:8px}.comment{padding:9px;background:#0c1018;border-radius:8px;margin:5px 0;font-size:13px}.commentTools{display:flex;gap:6px;margin-top:7px}.commentTools button{border:1px solid #343b4b;background:#171d2a;color:#cfd5e2;border-radius:7px;padding:5px 8px;font-size:11px;cursor:pointer}.commentTools .commentDelete{color:#ff9ba8}.editInput{width:100%;margin-top:6px}.commentForm{display:flex;gap:7px}.commentForm input{flex:1;padding:10px}
+footer{color:#777f90;text-align:center;padding:35px 15px}
+.small{font-size:12px;color:#7f8798;margin-top:8px}
+.account{display:flex;justify-content:flex-end;gap:8px;margin-bottom:12px}
+.account button{background:#202638;color:#fff;border:1px solid #394052;border-radius:10px;padding:10px 13px;cursor:pointer}
+.account .primary{background:#e33148;border-color:#e33148}
+.userbar{display:none;background:#121826;border:1px solid #343c4d;border-radius:12px;padding:10px 12px;margin-bottom:12px;color:#dce1ec}
+.modal{display:none;position:fixed;inset:0;background:#000b;z-index:20;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}.modalbox{width:min(430px,100%);background:#141a27;border:1px solid #444d61;border-radius:18px;padding:20px;box-shadow:0 20px 60px #000}
+.modalbox h3{margin:0 0 15px}.modalbox input{width:100%;margin:6px 0}.modal-actions{display:flex;gap:8px;margin-top:12px}.modal-actions button{flex:1}
+@media(max-width:600px){.controls{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>MLBB BUILDS</h1>
+<p>Сборки • Эмблемы • Заклинания • Лайки • Комментарии</p>
+</header>
+<div class="wrap">
+<div class="account">
+  <button id="loginBtn">Войти</button>
+  <button id="registerBtn" class="primary">Зарегистрироваться</button>
+  <button id="adminBtn" style="display:none">⚙️ Админка</button>
+</div>
+<div id="userbar" class="userbar"></div>
+<div class="controls">
+<input id="search" placeholder="🔎 Найти героя...">
+<select id="roleFilter"><option value="all">Все роли</option><option>Стрелки</option><option>Маги</option><option>Бойцы</option><option>Убийцы</option><option>Танки</option><option>Поддержка</option><option value="new">🆕 Новые герои</option></select>
+</div>
+<div class="tabs">
+<button class="active" data-tab="all">Все герои</button>
+<button data-tab="marks">🏹 Стрелки</button>
+<button data-tab="mages">✨ Маги</button>
+<button data-tab="fighters">⚔️ Бойцы</button>
+<button data-tab="assassins">🗡️ Убийцы</button>
+<button data-tab="tanks">🛡️ Танки</button>
+<button data-tab="supports">💚 Поддержка</button>
+</div>
+<div class="info">
+<span class="pill">133 героя в каталоге</span>
+<span class="pill">🆕 Хирара • Марсель • Сора • Обсидия • Цзэтянь • Калеа • Лукас</span>
+<span class="pill">❤️ Лайки и комментарии сохраняются в этом браузере</span>
+</div>
+<div id="grid" class="grid"></div>
+</div>
+<div id="adminModal" class="modal">
+  <div class="modalbox">
+    <h3>⚙️ Админка</h3>
+    <p class="small">Локальная админка для этой версии сайта.</p>
+    <button class="commentBtn" id="clearLikes" style="width:100%;margin:5px 0">Сбросить все лайки</button>
+    <button class="commentBtn" id="clearComments" style="width:100%;margin:5px 0">Удалить все комментарии</button>
+    <button class="commentBtn" id="clearReactions" style="width:100%;margin:5px 0">Сбросить все реакции</button>
+    <button class="commentBtn" id="closeAdmin" style="width:100%;margin-top:8px">Закрыть</button>
+  </div>
+</div>
+<div id="authModal" class="modal">
+  <div class="modalbox">
+    <h3 id="authTitle">Регистрация</h3>
+    <input id="authName" maxlength="24" placeholder="Имя пользователя">
+    <input id="authPass" type="password" minlength="4" placeholder="Пароль (минимум 4 символа)">
+    <div class="modal-actions">
+      <button class="commentBtn" id="closeAuth">Отмена</button>
+      <button class="like" id="submitAuth">Создать аккаунт</button>
+    </div>
+    <div class="small">Демо-регистрация: данные сохраняются только в этом браузере. Для настоящих аккаунтов нужен сервер и база данных.</div>
+  </div>
+</div>
+<footer>MLBB Builds 2026 • Это фанатский сайт, не официальный сайт Moonton.</footer>
+<script>
+const heroes = [{"name":"Aamon","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Эймон"},{"name":"Akai","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Акай"},{"name":"Aldous","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Алдос"},{"name":"Alice","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Алиса"},{"name":"Alpha","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Альфа"},{"name":"Alucard","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Алукард"},{"name":"Angela","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Анджела"},{"name":"Argus","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Аргус"},{"name":"Arlott","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Арлотт"},{"name":"Atlas","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Атлас"},{"name":"Aulus","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Аулус"},{"name":"Aurora","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Аврора"},{"name":"Badang","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Баданг"},{"name":"Balmond","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Бальмонд"},{"name":"Bane","role":"Бойцы и Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Бейн"},{"name":"Barats","role":"Танки и Бойцы","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Firmness • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Баратс"},{"name":"Baxia","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Баксия"},{"name":"Beatrix","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Беатрис"},{"name":"Belerick","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Белерик"},{"name":"Benedetta","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Бенедетта"},{"name":"Brody","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Броди"},{"name":"Bruno","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Бруно"},{"name":"Carmilla","role":"Танки и Поддержка","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Tenacity • Brave Smite","spell":"Исцеление","new":false,"display":"Кармилла"},{"name":"Cecilion","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Сесилион"},{"name":"Chang'e","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Чанъэ"},{"name":"Chip","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Чип"},{"name":"Chou","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Чоу"},{"name":"Cici","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Сиси"},{"name":"Claude","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Клод"},{"name":"Clint","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Клинт"},{"name":"Cyclops","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Циклоп"},{"name":"Diggie","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Дигги"},{"name":"Dyrroth","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Диррот"},{"name":"Edith","role":"Танки и Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Эдит"},{"name":"Esmeralda","role":"Танки и Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Эсмеральда"},{"name":"Estes","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Эстес"},{"name":"Eudora","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Эйдора"},{"name":"Fanny","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Фанни"},{"name":"Faramis","role":"Маги и Поддержка","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Wilderness Blessing • Lethal Ignition","spell":"Вспышка","new":false,"display":"Фарамис"},{"name":"Floryn","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Флорин"},{"name":"Franco","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Франко"},{"name":"Fredrinn","role":"Танки и Бойцы","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Firmness • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Фредринн"},{"name":"Freya","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Фрейя"},{"name":"Gatotkaca","role":"Танки и Бойцы","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Firmness • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Гатоткача"},{"name":"Gloo","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Глу"},{"name":"Gord","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Горд"},{"name":"Granger","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Грейнджер"},{"name":"Grock","role":"Танки и Бойцы","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Firmness • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Грок"},{"name":"Guinevere","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Гвиневра"},{"name":"Gusion","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Госсен"},{"name":"Hanabi","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Ханаби"},{"name":"Hanzo","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Ханзо"},{"name":"Harith","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Харит"},{"name":"Harley","role":"Маги и Убийцы","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема убийцы • Rupture • Wilderness Blessing • Lethal Ignition","spell":"Возмездие","new":false,"display":"Харли"},{"name":"Hayabusa","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Хаябуса"},{"name":"Helcurt","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Хелкурт"},{"name":"Hilda","role":"Танки и Бойцы","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Firmness • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Хильда"},{"name":"Hirara","role":"Убийцы","build":"Жёсткие Сапоги → Удар Охотника → Боевой Топор → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":true,"display":"Хирара"},{"name":"Hylos","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Хилос"},{"name":"Irithel","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Иритэль"},{"name":"Ixia","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Иксия"},{"name":"Jawhead","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Джоу Хэд"},{"name":"Johnson","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Джонсон"},{"name":"Joy","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Джой"},{"name":"Julian","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Джулиан"},{"name":"Kadita","role":"Маги и Убийцы","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема убийцы • Rupture • Wilderness Blessing • Lethal Ignition","spell":"Возмездие","new":false,"display":"Кадита"},{"name":"Kagura","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Кагура"},{"name":"Kaja","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Каджа"},{"name":"Kalea","role":"Поддержка и Бойцы","build":"Жёсткие Сапоги → Лёд Господства → Оракул → Античный Панцирь → Щит Афины → Бессмертие","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Вспышка","new":true,"display":"Калеа"},{"name":"Karina","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Карина"},{"name":"Karrie","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Кэрри"},{"name":"Khaleed","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Халид"},{"name":"Khufra","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Хуфра"},{"name":"Kimmy","role":"Стрелки и Маги","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Кимми"},{"name":"Lancelot","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Ланселот"},{"name":"Lapu-Lapu","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Лапу-Лапу"},{"name":"Layla","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Лейла"},{"name":"Leomord","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Леоморд"},{"name":"Lesley","role":"Стрелки и Убийцы","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Weapons Master • Quantum Charge","spell":"Вдохновение","new":false,"display":"Лесли"},{"name":"Ling","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Линг"},{"name":"Lolita","role":"Танки и Поддержка","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Tenacity • Brave Smite","spell":"Исцеление","new":false,"display":"Лолита"},{"name":"Lukas","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":true,"display":"Лукас"},{"name":"Lunox","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Люнокс"},{"name":"Luo Yi","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Ло Йи"},{"name":"Lylia","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Лилия"},{"name":"Marcel","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Ожерелье Дюранса → Бессмертие","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":true,"display":"Марсель"},{"name":"Martis","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Мартис"},{"name":"Masha","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Маша"},{"name":"Mathilda","role":"Поддержка и Убийцы","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Матильда"},{"name":"Melissa","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Мелисса"},{"name":"Minotaur","role":"Танки и Поддержка","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Tenacity • Brave Smite","spell":"Исцеление","new":false,"display":"Минотавр"},{"name":"Minsitthar","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Минситтар"},{"name":"Miya","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Мия"},{"name":"Moskov","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Москов"},{"name":"Nana","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Нана"},{"name":"Natalia","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Наталья"},{"name":"Natan","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Натан"},{"name":"Nolan","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Нолан"},{"name":"Novaria","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Новария"},{"name":"Obsidia","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":true,"display":"Обсидия"},{"name":"Odette","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Одетта"},{"name":"Paquito","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Пакито"},{"name":"Pharsa","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Фаша"},{"name":"Phoveus","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Фовей"},{"name":"Popol and Kupa","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Пополь и Купа"},{"name":"Rafaela","role":"Поддержка","build":"Магические Ботинки → Зачарованный Талисман → Мимолётное Время → Оракул → Бессмертие → Ожерелье Дюранса","emblem":"Эмблема поддержки • Agility • Wilderness Blessing • Focusing Mark","spell":"Исцеление","new":false,"display":"Рафаэла"},{"name":"Roger","role":"Бойцы и Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Роджер"},{"name":"Ruby","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Руби"},{"name":"Saber","role":"Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Seasoned Hunter • Killing Spree","spell":"Возмездие","new":false,"display":"Сабер"},{"name":"Selena","role":"Убийцы и Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема убийцы • Rupture • Wilderness Blessing • Lethal Ignition","spell":"Возмездие","new":false,"display":"Селена"},{"name":"Silvanna","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Сильванна"},{"name":"Sora","role":"Бойцы и Убийцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":true,"display":"Сора"},{"name":"Sun","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Сун"},{"name":"Suyou","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Сую"},{"name":"Terizla","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Теризла"},{"name":"Thamuz","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Тамуз"},{"name":"Tigreal","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Тигрил"},{"name":"Uranus","role":"Танки","build":"Жёсткие Сапоги → Лёд Господства → Щит Афины → Античный Панцирь → Бессмертие → Шлем Стража","emblem":"Эмблема танка • Vitality • Wilderness Blessing • Concussive Blast","spell":"Вспышка","new":false,"display":"Уранус"},{"name":"Vale","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Вейл"},{"name":"Valentina","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Валентина"},{"name":"Valir","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Валир"},{"name":"Vexana","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Вексана"},{"name":"Wanwan","role":"Стрелки","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Bargain Hunter • Quantum Charge","spell":"Вдохновение","new":false,"display":"Ванван"},{"name":"X.Borg","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Икс.Борг"},{"name":"Xavier","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Ксавьер"},{"name":"Yi Sun-shin","role":"Стрелки и Убийцы","build":"Сапоги Стремительности → Меч Демона-Охотника → Золотой Посох → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема стрелка • Swift • Weapons Master • Quantum Charge","spell":"Вдохновение","new":false,"display":"И Сун-син"},{"name":"Yin","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Инь"},{"name":"Yu Zhong","role":"Бойцы","build":"Сапоги Воина → Боевой Топор → Бесконечная Битва → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема бойца • Firmness • Festival of Blood • Brave Smite","spell":"Вспышка","new":false,"display":"Юй Чжун"},{"name":"Yve","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Ив"},{"name":"Zetian","role":"Маги","build":"Магические Ботинки → Часы Судьбы → Громовая Трость → Священный Кристалл → Жезл Гения → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":true,"display":"Цзэтянь"},{"name":"Zhask","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Заск"},{"name":"Zhuxin","role":"Маги","build":"Магические Ботинки → Жезл Гения → Светящийся Жезл → Священный Кристалл → Божественное Копьё → Бессмертие","emblem":"Эмблема мага • Inspire • Bargain Hunter • Lethal Ignition","spell":"Вспышка","new":false,"display":"Чжусинь"},{"name":"Zilong","role":"Бойцы и Убийцы","build":"Магические Ботинки → Клинок Семи Морей → Удар Охотника → Зловещий Рык → Клинок Отчаяния → Бессмертие","emblem":"Эмблема убийцы • Rupture • Master Assassin • Killing Spree","spell":"Возмездие","new":false,"display":"Зилонг"}];
+const state = JSON.parse(localStorage.getItem('mlbb_builds_state')||'{"likes":{},"comments":{}}');
+let tab='all';
+const esc=s=>String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+function save(){localStorage.setItem('mlbb_builds_state',JSON.stringify(state))}
+function matches(h){
+ const q=document.getElementById('search').value.trim().toLowerCase();
+ const f=document.getElementById('roleFilter').value;
+ const role=h.role;
+ const roleOk=f==='all'||(f==='new'?h.new:role.includes(f));
+ let tabOk=true;
+ if(tab==='marks')tabOk=role.includes('Стрелки');
+ if(tab==='mages')tabOk=role.includes('Маги');
+ if(tab==='fighters')tabOk=role.includes('Бойцы');
+ if(tab==='assassins')tabOk=role.includes('Убийцы');
+ if(tab==='tanks')tabOk=role.includes('Танки');
+ if(tab==='supports')tabOk=role.includes('Поддержка');
+ return (!q||(h.display+" "+h.name).toLowerCase().includes(q))&&roleOk&&tabOk;
+}
+
+state.reactions=state.reactions||{};
+state.reactionUsers=state.reactionUsers||{};
+function userKey(){return localStorage.getItem('mlbb_user')||'guest'}
+function getReaction(name,emoji){
+ const u=userKey(); return !!(state.reactionUsers[u]&&state.reactionUsers[u][name]===emoji);
+}
+function getReactionCount(name,emoji){
+ return state.reactions[name]?.[emoji]||0;
+}
+function setReaction(name,emoji){
+ const u=userKey();
+ state.reactionUsers[u]=state.reactionUsers[u]||{};
+ const old=state.reactionUsers[u][name];
+ if(old===emoji){
+   state.reactions[name][emoji]=Math.max(0,(state.reactions[name][emoji]||0)-1);
+   delete state.reactionUsers[u][name];
+ }else{
+   if(old) state.reactions[name][old]=Math.max(0,(state.reactions[name][old]||0)-1);
+   state.reactions[name]=state.reactions[name]||{};
+   state.reactions[name][emoji]=(state.reactions[name][emoji]||0)+1;
+   state.reactionUsers[u][name]=emoji;
+ }
+ save(); render();
+}
+function render(){
+ const grid=document.getElementById('grid');
+ const list=heroes.filter(matches);
+ grid.innerHTML=list.map(h=>{
+  const id=h.name.replace(/[^a-zA-Zа-яА-Я0-9]+/g,'_');
+  const likes=state.likes[h.name]||0;
+  const comments=state.comments[h.name]||[];
+  return `<article class="card ${h.new?'new':''}" data-hero="${esc(h.name)}">
+   ${h.new?'<span class="badge">🆕 НОВЫЙ</span>':''}
+   <div class="name">${esc(h.display)}</div><div class="role">${esc(h.role)}</div>
+   <div class="label">Сборка</div><div class="build">${esc(h.build)}</div>
+   <div class="label">Эмблема</div><div class="meta">${esc(h.emblem)}</div>
+   <div class="label">Заклинание</div><div class="meta">⚡ ${esc(h.spell)}</div>
+   <div class="actions">
+    <button class="reaction ${getReaction(h.name,'❤️')?'active':''}" data-reaction="❤️">❤️ <span>${getReactionCount(h.name,'❤️')}</span></button>
+    <button class="reaction ${getReaction(h.name,'👍')?'active':''}" data-reaction="👍">👍 <span>${getReactionCount(h.name,'👍')}</span></button>
+    <button class="reaction ${getReaction(h.name,'🔥')?'active':''}" data-reaction="🔥">🔥 <span>${getReactionCount(h.name,'🔥')}</span></button>
+    <button class="reaction ${getReaction(h.name,'😂')?'active':''}" data-reaction="😂">😂 <span>${getReactionCount(h.name,'😂')}</span></button>
+    <button class="reaction ${getReaction(h.name,'😮')?'active':''}" data-reaction="😮">😮 <span>${getReactionCount(h.name,'😮')}</span></button>
+    <button class="reaction ${getReaction(h.name,'👎')?'active':''}" data-reaction="👎">👎 <span>${getReactionCount(h.name,'👎')}</span></button>
+    <button class="commentBtn" data-action="comments">💬 ${comments.length}</button>
+   </div>
+   <div class="comments" id="c_${id}">
+    <div class="comment-list">${comments.map((c,idx)=>`<div class="comment" data-comment-index="${idx}">
+  <span class="commentText">${esc(c)}</span>
+  <div class="commentTools">
+    <button type="button" class="commentEdit" data-comment-action="edit">✏️ Изменить</button>
+    <button type="button" class="commentDelete" data-comment-action="delete">🗑️ Удалить</button>
+  </div>
+</div>`).join('')||'<div class="small">Пока комментариев нет.</div>'}</div>
+    <form class="commentForm">
+      <input maxlength="160" required placeholder="Напиши комментарий..."><button class="commentBtn">Отправить</button>
+    </form>
+   </div>
+  </article>`
+ }).join('') || '<div class="small">Ничего не найдено.</div>';
+}
+function likeHero(name){state.likes[name]=(state.likes[name]||0)+1;save();render()}
+function toggleComments(id){document.getElementById('c_'+id)?.classList.toggle('show')}
+function addComment(e,name){e.preventDefault();const input=e.target.querySelector('input');const text=input.value.trim();if(!text)return;(state.comments[name]??=[]).push(text);save();render();setTimeout(()=>{const id=name.replace(/[^a-zA-Zа-яА-Я0-9]+/g,'_');document.getElementById('c_'+id)?.classList.add('show')},0)}
+
+document.getElementById('grid').addEventListener('click',e=>{
+ const card=e.target.closest('.card'); if(!card)return;
+ const name=card.dataset.hero; const action=e.target.closest('[data-action]')?.dataset.action;
+ const reaction=e.target.closest('[data-reaction]')?.dataset.reaction;
+ if(reaction){ setReaction(name,reaction); }
+ if(action==='comments'){
+   const box=card.querySelector('.comments'); box.classList.toggle('show');
+ }
+});
+
+const blockedWords=['мат','оскорбление','спам','мошенник','идиот'];
+function containsBlocked(text){
+ const t=text.toLowerCase().replace(/[^\p{L}\p{N}\s]/gu,' ');
+ return blockedWords.some(w=>t.includes(w));
+}
+
+
+document.getElementById('grid').addEventListener('click',e=>{
+ const btn=e.target.closest('[data-comment-action]');
+ if(!btn)return;
+ const card=btn.closest('.card'); const name=card?.dataset.hero;
+ const item=btn.closest('.comment'); const idx=Number(item?.dataset.commentIndex);
+ if(!name||Number.isNaN(idx)||!state.comments[name]?.[idx])return;
+ const action=btn.dataset.commentAction;
+ if(action==='delete'){
+   if(confirm('Удалить этот комментарий?')){
+     state.comments[name].splice(idx,1); save(); render();
+     setTimeout(()=>card?.querySelector('.comments')?.classList.add('show'),0);
+   }
+ }
+ if(action==='edit'){
+   const current=state.comments[name][idx];
+   const text=prompt('Измени комментарий:',current);
+   if(text===null)return;
+   const clean=text.trim();
+   if(!clean){alert('Комментарий не может быть пустым.');return}
+   if(containsBlocked(clean)){alert('🤖 Модератор: комментарий содержит запрещённые слова.');return}
+   state.comments[name][idx]=clean; save(); render();
+   setTimeout(()=>document.querySelector('.card[data-hero="'+CSS.escape(name)+'"] .comments')?.classList.add('show'),0);
+ }
+});
+
+document.getElementById('grid').addEventListener('submit',e=>{
+ if(!e.target.classList.contains('commentForm'))return;
+ e.preventDefault();
+ const card=e.target.closest('.card'); const name=card.dataset.hero;
+ const input=e.target.querySelector('input'); const text=input.value.trim();
+ if(!text)return;
+ if(containsBlocked(text)){
+   alert('🤖 Модератор: комментарий содержит запрещённые слова. Пожалуйста, напиши по-другому.');
+   return;
+ }
+ (state.comments[name]??=[]).push(text); save(); render();
+ setTimeout(()=>{
+   const c=document.querySelector('.card[data-hero="'+CSS.escape(name)+'"] .comments');
+   if(c)c.classList.add('show');
+ },0);
+});
+
+document.getElementById('search').addEventListener('input',render);
+document.getElementById('roleFilter').addEventListener('change',render);
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');tab=b.dataset.tab;render()}));
+
+const authModal=document.getElementById('authModal');
+const authTitle=document.getElementById('authTitle');
+const authName=document.getElementById('authName');
+const authPass=document.getElementById('authPass');
+const submitAuth=document.getElementById('submitAuth');
+let authMode='register';
+function openAuth(mode){
+ authMode=mode; authTitle.textContent=mode==='register'?'Регистрация':'Вход';
+ submitAuth.textContent=mode==='register'?'Создать аккаунт':'Войти';
+ authName.value='';authPass.value='';authModal.classList.add('show');authName.focus();
+}
+function updateUser(){
+ const u=localStorage.getItem('mlbb_user');
+ const bar=document.getElementById('userbar');
+ if(u){bar.style.display='block';bar.innerHTML='👤 Вы вошли как <b>'+esc(u)+'</b> <button class="commentBtn" style="float:right;padding:5px 9px" onclick="logout()">Выйти</button>'}
+ else bar.style.display='none';
+}
+function logout(){localStorage.removeItem('mlbb_user');updateUser()}
+document.getElementById('registerBtn').onclick=()=>openAuth('register');
+document.getElementById('loginBtn').onclick=()=>openAuth('login');
+document.getElementById('closeAuth').onclick=()=>authModal.classList.remove('show');
+submitAuth.onclick=()=>{
+ const name=authName.value.trim(), pass=authPass.value;
+ if(name.length<2||pass.length<4){alert('Введите имя и пароль (минимум 4 символа).');return}
+ const users=JSON.parse(localStorage.getItem('mlbb_users')||'{}');
+ if(authMode==='register'){
+   if(name===ADMIN_NAME){alert('Имя admin зарезервировано.');return}
+   if(users[name]){alert('Такое имя уже зарегистрировано на этом устройстве.');return}
+   users[name]=pass;localStorage.setItem('mlbb_users',JSON.stringify(users));localStorage.setItem('mlbb_user',name);
+ }else{
+   if(name===ADMIN_NAME){
+     if(pass!==ADMIN_PASS){alert('Неверные данные администратора.');return}
+   }else if(users[name]!==pass){alert('Неверное имя или пароль.');return}
+   localStorage.setItem('mlbb_user',name);
+ }
+ authModal.classList.remove('show');updateUser();
+};
+authModal.addEventListener('click',e=>{if(e.target===authModal)authModal.classList.remove('show')});
+
+const ADMIN_NAME='admin';
+const ADMIN_PASS='MLBB-admin-2026';
+const adminModal=document.getElementById('adminModal');
+document.getElementById('adminBtn').onclick=()=>adminModal.classList.add('show');
+document.getElementById('closeAdmin').onclick=()=>adminModal.classList.remove('show');
+document.getElementById('clearLikes').onclick=()=>{if(confirm('Сбросить все лайки?')){state.likes={};save();render();}};
+document.getElementById('clearComments').onclick=()=>{if(confirm('Удалить все комментарии?')){state.comments={};save();render();}};
+document.getElementById('clearReactions').onclick=()=>{if(confirm('Сбросить все реакции?')){state.reactions={};state.reactionUsers={};save();render();}};
+document.getElementById('submitAuth').addEventListener('click',()=>{
+ setTimeout(()=>{
+  if(localStorage.getItem('mlbb_user')===ADMIN_NAME) document.getElementById('adminBtn').style.display='inline-block';
+ },20);
+});
+
+updateUser();
+if(localStorage.getItem('mlbb_user')===ADMIN_NAME)document.getElementById('adminBtn').style.display='inline-block';
+render();
+</script>
+</body>
+</html>
